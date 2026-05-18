@@ -40,58 +40,60 @@ def send_message(bot_token, chat_id, text):
 
 
 def send_scan_complete(bot_token, chat_id, total_scanned, total_found, all_ips, operator_name=""):
-    medals = ["🥇", "🥈", "🥉"]
+    medals = ["1", "2", "3"]
     top3 = all_ips[:3]
 
     header = []
-    header.append("🔍 <b>IP Scan Complete</b>")
+    header.append("IP Scan Complete")
     header.append("")
     if operator_name:
-        header.append("📡 <b>Operator:</b> {}".format(operator_name))
+        header.append("Operator: {}".format(operator_name))
         header.append("")
-    header.append("📊 <b>Results:</b>")
-    header.append("• Scanned: <code>{}</code>".format(total_scanned))
-    header.append("• Found: <code>{}</code>".format(total_found))
+    header.append("Results:")
+    header.append("Scanned: {}".format(total_scanned))
+    header.append("Found: {}".format(total_found))
     header.append("")
-    header.append("🏆 <b>Top 3 Fastest IPs:</b>")
+    header.append("Top 3 Fastest IPs:")
     header.append("")
     for i, ip in enumerate(top3):
-        header.append("{} <code>{}</code>".format(medals[i], ip['ip']))
+        header.append("{}. {}".format(medals[i], ip['ip']))
 
-    ip_lines = [ip['ip'] for ip in all_ips]
+    ip_lines = []
+    for ip in all_ips:
+        ip_lines.append(ip['ip'])
     ip_block = "\n".join(ip_lines)
 
     full = list(header)
     full.append("")
     full.append("")
-    full.append("✨ <b>لیست کامل آی‌پی :</b>")
+    full.append("Full IP List:")
     full.append("")
-    full.append("<blockquote>{}</blockquote>".format(ip_block))
+    full.append("<code>{}</code>".format(ip_block))
     full.append("")
-    full.append("⬅️ همرو با هم وارد کنید 📰")
+    full.append("Copy all IPs above")
     full.append("")
-    full.append("✏ <b>آموزش متنی :</b>")
+    full.append("Tutorial:")
     full.append("")
-    full.append("1⃣ نسخه شیر خورشید اگه از قبل دارید حذف کنید و نسخه جدید نصب کنید")
+    full.append("1. Remove old app and install new version")
     full.append("")
-    full.append("2⃣ گام دوم برید قسمت More Options یا اگه زبان فارسی هستید برید قسمت گزینه های بیشتر")
+    full.append("2. Go to More Options")
     full.append("")
-    full.append("3⃣ گام سوم تیک حالت قدرتمند یا Beast Mode رو فعال کنید")
+    full.append("3. Enable Beast Mode")
     full.append("")
-    full.append("4⃣ گام چهارم از قسمت Connection Protocol یا پروتکل اتصال گزینه فرانتینگ Cdn یا CDN Fronting رو بزنید")
+    full.append("4. Select CDN Fronting from Connection Protocol")
     full.append("")
-    full.append("5⃣ گام بعدی از قسمت CDN edge IPs آی‌پی های جدید کانال رو که گذاشتم همشونو اونجا کپی پیست کنید")
+    full.append("5. Paste IPs in CDN edge IPs section")
     full.append("")
-    full.append("6⃣ گام آخر فیلترشکن شیر و خورشید رو start کنید چند ثانیه صبر کنید وصل میشه")
+    full.append("6. Start and wait to connect")
     full.append("")
-    full.append("📢 @Net4All_none")
+    full.append("@Net4All_none")
 
     full_msg = '\n'.join(full)
 
     if len(full_msg) <= 4000:
         return send_message(bot_token, chat_id, full_msg)
 
-    send_message(bot_token, chat_id, '\n'.join(header) + "\n\n📢 @Net4All_none")
+    send_message(bot_token, chat_id, '\n'.join(header) + "\n\n@Net4All_none")
 
     chunk_size = 50
     for i in range(0, len(all_ips), chunk_size):
@@ -101,31 +103,26 @@ def send_scan_complete(bot_token, chat_id, total_scanned, total_found, all_ips, 
         is_last = (idx == total_chunks)
 
         msg = []
-        msg.append("✨ <b>لیست آی‌پی ({}/{}):</b>".format(idx, total_chunks))
+        msg.append("IP List ({}/{}):".format(idx, total_chunks))
         msg.append("")
-        msg.append("<blockquote>{}</blockquote>".format(
+        msg.append("<code>{}</code>".format(
             '\n'.join([ip['ip'] for ip in chunk])
         ))
 
         if is_last:
             msg.append("")
-            msg.append("⬅️ همرو با هم وارد کنید 📰")
+            msg.append("Copy all IPs above")
             msg.append("")
-            msg.append("✏ <b>آموزش متنی :</b>")
+            msg.append("Tutorial:")
             msg.append("")
-            msg.append("1⃣ نسخه شیر خورشید اگه از قبل دارید حذف کنید و نسخه جدید نصب کنید")
+            msg.append("1. Remove old app and install new version")
+            msg.append("2. Go to More Options")
+            msg.append("3. Enable Beast Mode")
+            msg.append("4. Select CDN Fronting")
+            msg.append("5. Paste IPs in CDN edge IPs")
+            msg.append("6. Start and wait")
             msg.append("")
-            msg.append("2⃣ برید قسمت More Options")
-            msg.append("")
-            msg.append("3⃣ تیک Beast Mode رو فعال کنید")
-            msg.append("")
-            msg.append("4⃣ از Connection Protocol گزینه CDN Fronting رو بزنید")
-            msg.append("")
-            msg.append("5⃣ از قسمت CDN edge IPs آی‌پی ها رو کپی پیست کنید")
-            msg.append("")
-            msg.append("6⃣ فیلترشکن رو start کنید")
-            msg.append("")
-            msg.append("📢 @Net4All_none")
+            msg.append("@Net4All_none")
 
         send_message(bot_token, chat_id, '\n'.join(msg))
         _time.sleep(1)
