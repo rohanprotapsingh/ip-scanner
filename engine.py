@@ -3,7 +3,7 @@ import socket
 import ssl
 import time
 import urllib.request
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from threading import Lock, Event
 from utils import detect_cdn
 
@@ -16,6 +16,7 @@ class Scanner:
         self.running = False
         self.lock = Lock()
         self.stop_event = Event()
+        self.pool = None
 
     def reset(self):
         self.results = []
@@ -23,6 +24,8 @@ class Scanner:
         self.stop_event.clear()
 
     def tcp_ping(self, ip, port, timeout):
+        if self.stop_event.is_set():
+            return None
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.settimeout(timeout)
@@ -37,6 +40,8 @@ class Scanner:
         return None
 
     def http_head(self, ip, port, timeout):
+        if self.stop_event.is_set():
+            return None, 0, ''
         scheme = "https" if port == 443 else "http"
         try:
             ctx = ssl.create_default_context()
@@ -62,19 +67,27 @@ class Scanner:
     def scan_one(self, ip, ports, timeout, do_http, sio):
         if self.stop_event.is_set():
             return
+
         best = None
         for port in ports:
             if self.stop_event.is_set():
                 return
+
             ms = self.tcp_ping(ip, port, timeout)
             if ms is None:
                 continue
+
             srv = ''
             hst = 0
+
             if do_http and not self.stop_event.is_set():
                 hms, hst, srv = self.http_head(ip, port, min(timeout, 2))
                 if hms is not None:
                     ms = hms
+
+            if self.stop_event.is_set():
+                return
+
             cdn = detect_cdn(srv)
             r = {
                 'ip': ip, 'port': port, 'latency_ms': ms,
@@ -96,12 +109,16 @@ class Scanner:
                 self.results.append(best)
                 cnt += 1
 
+        if self.stop_event.is_set():
+            return
+
         if best and sio:
             try:
                 sio.emit('ip_found', best, namespace='/')
             except Exception:
                 pass
-        if sio and not self.stop_event.is_set():
+
+        if sio:
             pct = round((sc / self.total) * 100, 1) if self.total > 0 else 0
             try:
                 sio.emit('scan_progress', {
@@ -115,35 +132,58 @@ class Scanner:
         self.reset()
         self.total = len(ips)
         self.running = True
+
         if sio:
             try:
                 sio.emit('scan_started', {'total': self.total}, namespace='/')
             except Exception:
                 pass
-        with ThreadPoolExecutor(max_workers=threads) as pool:
-            futs = []
+
+        self.pool = ThreadPoolExecutor(max_workers=threads)
+        futs = []
+
+        try:
             for ip in ips:
                 if self.stop_event.is_set():
                     break
-                futs.append(pool.submit(self.scan_one, ip, ports, timeout, do_http, sio))
-            for f in as_completed(futs):
+                fut = self.pool.submit(
+                    self.scan_one, ip, ports, timeout, do_http, sio
+                )
+                futs.append(fut)
+
+            for fut in futs:
                 if self.stop_event.is_set():
-                    for fut in futs:
-                        fut.cancel()
                     break
                 try:
-                    f.result()
+                    fut.result(timeout=timeout + 1)
                 except Exception:
                     pass
+        except Exception:
+            pass
+
+        # Cancel remaining
+        for fut in futs:
+            fut.cancel()
+
+        try:
+            self.pool.shutdown(wait=False)
+        except Exception:
+            pass
+
+        self.pool = None
         self.results.sort(key=lambda x: x['latency_ms'])
         self.running = False
+
         if self.stop_event.is_set():
             if sio:
                 try:
-                    sio.emit('scan_stopped', {}, namespace='/')
+                    sio.emit('scan_stopped', {
+                        'found': len(self.results)
+                    }, namespace='/')
                 except Exception:
                     pass
             return
+
         if sio:
             try:
                 sio.emit('scan_progress', {
@@ -159,5 +199,11 @@ class Scanner:
                 pass
 
     def stop(self):
+        print("[*] STOP requested!")
         self.stop_event.set()
         self.running = False
+        if self.pool:
+            try:
+                self.pool.shutdown(wait=False)
+            except Exception:
+                pass
