@@ -64,7 +64,7 @@ def build_message(total_scanned, total_found, all_ips, operator_name=""):
     lines.append("")
     lines.append("\u2728 \u0644\u06cc\u0633\u062a \u06a9\u0627\u0645\u0644 \u0622\u06cc\u200c\u067e\u06cc :")
     lines.append("")
-    lines.append("<blockquote><code>{}</code></blockquote>".format(ip_list))
+    lines.append("<blockquote expandable><code>{}</code></blockquote>".format(ip_list))
     lines.append("")
     lines.append("\u2b05\ufe0f \u0647\u0645\u0631\u0648 \u0628\u0627 \u0647\u0645 \u0648\u0627\u0631\u062f \u06a9\u0646\u06cc\u062f \U0001f4f0")
     lines.append("")
@@ -130,7 +130,7 @@ def send_scan_complete(bot_token, chat_id, total_scanned, total_found, all_ips, 
         msg = []
         msg.append("\u2728 \u0644\u06cc\u0633\u062a \u0622\u06cc\u200c\u067e\u06cc ({}/{}):".format(idx, total_chunks))
         msg.append("")
-        msg.append("<blockquote><code>{}</code></blockquote>".format(ip_list))
+        msg.append("<blockquote expandable><code>{}</code></blockquote>".format(ip_list))
 
         if is_last:
             msg.append("")
@@ -140,7 +140,7 @@ def send_scan_complete(bot_token, chat_id, total_scanned, total_found, all_ips, 
             msg.append("")
             msg.append("1\u20e3 \u0646\u0633\u062e\u0647 \u0634\u06cc\u0631 \u062e\u0648\u0631\u0634\u06cc\u062f \u0627\u06af\u0647 \u0627\u0632 \u0642\u0628\u0644 \u062f\u0627\u0631\u06cc\u062f \u062d\u0630\u0641 \u06a9\u0646\u06cc\u062f \u0648 \u0646\u0633\u062e\u0647 \u062c\u062f\u06cc\u062f \u0646\u0635\u0628 \u06a9\u0646\u06cc\u062f")
             msg.append("")
-            msg.append("2\u20e3 \u06af\u0627\u0645 \u062f\u0648\u0645 \u0628\u0631\u06cc\u062f \u0642\u0633\u0645\u062a More Options \u06cc\u0627 \u06af\u0632\u06cc\u0646\u0647 \u0647\u0627\u06cc \u0628\u06cc\u0634\u062a\u0631")
+            msg.append("2\u20e3 \u0628\u0631\u06cc\u062f \u0642\u0633\u0645\u062a More Options \u06cc\u0627 \u06af\u0632\u06cc\u0646\u0647 \u0647\u0627\u06cc \u0628\u06cc\u0634\u062a\u0631")
             msg.append("")
             msg.append("3\u20e3 \u062a\u06cc\u06a9 Beast Mode \u0631\u0648 \u0641\u0639\u0627\u0644 \u06a9\u0646\u06cc\u062f")
             msg.append("")
