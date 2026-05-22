@@ -4,7 +4,7 @@
 
 ### Fast CDN IP Scanner with Web UI & Telegram Integration
 
-[![GitHub stars](https://img.shields.io/github/stars/istorekala/ip-scanner?style=social)](https://github.com/istorekala/ip-scanner)
+[![GitHub stars](https://img.shields.io/github/stars/rohanprotapsingh/ip-scanner?style=social)](https://github.com/rohanprotapsingh/ip-scanner)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.7+-yellow.svg)](https://python.org)
 [![Telegram](https://img.shields.io/badge/Telegram-@Net4All__None-blue?logo=telegram)](https://t.me/Net4All_None)
