@@ -83,7 +83,7 @@ Short Range:   23.64.0.1-254
 pkg update && pkg upgrade -y
 pkg install python git -y
 
-git clone https://github.com/istorekala/ip-scanner.git
+git clone https://github.com/rohanprotapsingh/ip-scanner.git
 cd ip-scanner
 
 pip install -r requirements.txt
@@ -96,7 +96,7 @@ python app.py
 ### 🪟 Windows
 
 ```bash
-git clone https://github.com/istorekala/ip-scanner.git
+git clone https://github.com/rohanprotapsingh/ip-scanner.git
 cd ip-scanner
 
 pip install -r requirements.txt
@@ -111,7 +111,7 @@ python app.py
 ```bash
 brew install python git
 
-git clone https://github.com/istorekala/ip-scanner.git
+git clone https://github.com/rohanprotapsingh/ip-scanner.git
 cd ip-scanner
 pip3 install -r requirements.txt
 
