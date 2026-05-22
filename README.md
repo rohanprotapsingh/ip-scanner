@@ -306,7 +306,7 @@ This project is licensed under the MIT License.
 ### ⭐ Star this repo if you find it useful!
 
 [![Telegram](https://img.shields.io/badge/Join-Telegram%20Channel-blue?style=for-the-badge&logo=telegram)](https://t.me/Net4All_None)
-[![GitHub](https://img.shields.io/badge/Follow-GitHub-black?style=for-the-badge&logo=github)](https://github.com/istorekala)
+[![GitHub](https://img.shields.io/badge/Follow-GitHub-black?style=for-the-badge&logo=github)](https://github.com/rohanprotapsingh)
 
 **Made with ❤️ by [@Net4All_None](https://t.me/Net4All_None)**
 
