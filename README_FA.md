@@ -4,7 +4,7 @@
 
 ### اسکنر سریع CDN با رابط وب و ارسال به تلگرام
 
-[![GitHub stars](https://img.shields.io/github/stars/istorekala/ip-scanner?style=social)](https://github.com/istorekala/ip-scanner)
+[![GitHub stars](https://img.shields.io/github/stars/rohanprotapsingh/ip-scanner?style=social)](https://github.com/rohanprotapsingh/ip-scanner)
 [![Python](https://img.shields.io/badge/python-3.7+-yellow.svg)](https://python.org)
 [![Telegram](https://img.shields.io/badge/تلگرام-@Net4All__None-blue?logo=telegram)](https://t.me/Net4All_None)
 
@@ -305,7 +305,7 @@ SERVER_PORT = 9000
 ### ⭐ اگر این پروژه برای شما مفید بود، به آن ستاره بدهید!
 
 [![Telegram](https://img.shields.io/badge/عضویت-کانال%20تلگرام-blue?style=for-the-badge&logo=telegram)](https://t.me/Net4All_None)
-[![GitHub](https://img.shields.io/badge/دنبال%20کردن-GitHub-black?style=for-the-badge&logo=github)](https://github.com/istorekala)
+[![GitHub](https://img.shields.io/badge/دنبال%20کردن-GitHub-black?style=for-the-badge&logo=github)](https://github.com/rohanprotapsingh)
 
 **ساخته شده با ❤️ توسط [@Net4All_None](https://t.me/Net4All_None)**
 
